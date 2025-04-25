@@ -113,6 +113,7 @@ const Button = (props: ButtonProps) => {
 const Form = <T,>(props: FormProps<T>) => {
   const { onSubmit, children, validationSchema } = props;
   const formData = useAtomValue(formDataAtom) as unknown as T;
+  const setFormData = useSetAtom(formDataAtom);
   const setToast = useSetAtom(toastAtom);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -135,6 +136,7 @@ const Form = <T,>(props: FormProps<T>) => {
     }
 
     onSubmit();
+    setFormData(initialFormData);
   };
 
   return (

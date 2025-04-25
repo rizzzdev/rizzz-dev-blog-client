@@ -9,7 +9,7 @@ const Main = (props: MainProps) => {
   const { children, className } = props;
   return (
     <main
-      className={`w-full min-h-screen pt-28 md:pt-36 px-4 md:px-8 pb-4 md:pb-8 bg-background text-primary ${className}`}
+      className={`w-full min-h-[100dvh] md:min-h-screen pt-28 md:pt-36 px-4 md:px-8 pb-4 md:pb-8 bg-background text-primary ${className}`}
     >
       {children}
     </main>

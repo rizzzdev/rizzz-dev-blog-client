@@ -45,7 +45,9 @@ const ArticlePage = (props: ArticlePageProps) => {
   }, [pageviewMutation, articleQuery, userQuery, isPageviewFetched]);
 
   const handleSuccess = () => {
-    userQuery.refetch();
+    setTimeout(() => {
+      userQuery.refetch();
+    }, 3000);
   };
 
   if (

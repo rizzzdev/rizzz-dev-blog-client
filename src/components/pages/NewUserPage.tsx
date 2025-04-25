@@ -2,7 +2,7 @@ import Header from "../layout/Header";
 import Main from "../layout/Main";
 import { useMutationUser } from "~/stores/userStore";
 import { useAtomValue, useSetAtom } from "jotai";
-import Form, { formDataAtom, initialFormData } from "../ui/Form";
+import Form, { formDataAtom } from "../ui/Form";
 import { RequestUserType } from "~/types/userType";
 import Joi from "joi";
 import Toast, { toastAtom } from "../ui/Toast";
@@ -13,11 +13,6 @@ interface NewUserPageProps {
 }
 
 const NewUserPage = (props: NewUserPageProps) => {
-  const { onSuccess } = props;
-
-  const userMutation = useMutationUser(onSuccess);
-  const setToast = useSetAtom(toastAtom);
-
   const formData = useAtomValue(formDataAtom) as unknown as RequestUserType;
   const setFormData = useSetAtom(formDataAtom);
   const validationSchema = Joi.object<RequestUserType>({
@@ -27,6 +22,15 @@ const NewUserPage = (props: NewUserPageProps) => {
       "any.required": "Full Name wajib diisi",
     }),
   });
+
+  const { onSuccess } = props;
+
+  const handleSuccess = () => {
+    onSuccess();
+  };
+
+  const userMutation = useMutationUser(handleSuccess);
+  const setToast = useSetAtom(toastAtom);
 
   useEffect(() => {
     const success =
@@ -38,11 +42,10 @@ const NewUserPage = (props: NewUserPageProps) => {
     if (success) {
       setToast({
         isVisible: true,
-        message: `Welcome to Rizzz.Dev Blog, ${formData.fullName}`,
+        message: `Welcome to Rizzz.Dev Blog!`,
         type: "success",
       });
 
-      setFormData(initialFormData);
       return;
     }
 
