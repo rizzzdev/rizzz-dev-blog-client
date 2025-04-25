@@ -4,13 +4,17 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import ArticlesPage from "~/components/pages/ArticlesPage";
 
-export default function Search() {
+const ArticleSearch = () => {
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get("keyword");
 
+  return <ArticlesPage searchQuery={searchKeyword ?? ""} />;
+};
+
+export default function SearchPage() {
   return (
     <Suspense>
-      <ArticlesPage searchQuery={searchKeyword ?? ""} />;
+      <ArticleSearch />
     </Suspense>
   );
 }

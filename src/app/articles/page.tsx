@@ -5,21 +5,21 @@ import { Suspense } from "react";
 import ArticlePage from "~/components/pages/ArticlePage";
 import ArticlesPage from "~/components/pages/ArticlesPage";
 
-const Article = () => {
+const ArticleWithId = () => {
   const idParams = useSearchParams();
   const id = idParams.get("id");
 
   if (!id) {
-    return (
-      <Suspense>
-        <ArticlesPage />;
-      </Suspense>
-    );
+    return <ArticlesPage />;
   }
 
+  return <ArticlePage articleId={id} />;
+};
+
+const Article = () => {
   return (
     <Suspense>
-      <ArticlePage articleId={id} />;
+      <ArticleWithId />
     </Suspense>
   );
 };
