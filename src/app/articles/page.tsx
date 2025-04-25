@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import ArticlePage from "~/components/pages/ArticlePage";
 import ArticlesPage from "~/components/pages/ArticlesPage";
 
@@ -12,7 +13,11 @@ const Article = () => {
     return <ArticlesPage />;
   }
 
-  return <ArticlePage articleId={id} />;
+  return (
+    <Suspense>
+      <ArticlePage articleId={id} />;
+    </Suspense>
+  );
 };
 
 export default Article;
