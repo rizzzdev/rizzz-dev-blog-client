@@ -42,7 +42,9 @@ const Toast = (props: ToastProps) => {
 
   return (
     <div
-      className={`w-fit fixed ${position ? position : "bottom-10 right-10"}`}
+      className={`w-fit fixed ${
+        position ? position : "bottom-5 md:bottom-10 right-5 md:right-10"
+      }`}
     >
       {toast && (
         <div className="w-fit flex justify-center items-center gap-2 md:gap-4 p-2 md:p-4 border-2 border-primary rounded-lg bg-primary text-white ">

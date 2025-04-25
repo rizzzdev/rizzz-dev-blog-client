@@ -2,11 +2,10 @@ import Header from "../layout/Header";
 import Main from "../layout/Main";
 import { useMutationUser } from "~/stores/userStore";
 import { useAtomValue, useSetAtom } from "jotai";
-import Form, { formDataAtom } from "../ui/Form";
+import Form, { formDataAtom, initialFormData } from "../ui/Form";
 import { RequestUserType } from "~/types/userType";
 import Joi from "joi";
 import Toast, { toastAtom } from "../ui/Toast";
-import { useEffect } from "react";
 
 interface NewUserPageProps {
   onSuccess: () => void;
@@ -31,35 +30,24 @@ const NewUserPage = (props: NewUserPageProps) => {
 
   const userMutation = useMutationUser(handleSuccess);
   const setToast = useSetAtom(toastAtom);
-
-  useEffect(() => {
-    const success =
-      !userMutation.isPending &&
-      userMutation.isSuccess &&
-      !userMutation.isError &&
-      !userMutation.error;
-
-    if (success) {
-      setToast({
-        isVisible: true,
-        message: `Welcome to Rizzz.Dev Blog!`,
-        type: "success",
-      });
-
-      return;
-    }
-
-    if (userMutation.error?.message) {
-      setToast({
-        isVisible: true,
-        message: userMutation.error!.message,
-        type: "failure",
-      });
-    }
-  }, [formData, userMutation, setToast, setFormData]);
+  const handleShowToast = () => {
+    const isError = !userMutation.isPending && userMutation.isError;
+    setToast({
+      isVisible: !userMutation.isPending ? true : false,
+      message: isError
+        ? `${userMutation.error.message}`
+        : `Welcome To Rizzz.Dev Blog!`,
+      type: isError ? "failure" : "success",
+    });
+  };
 
   const handleSubmit = () => {
     userMutation.mutate(formData);
+    handleShowToast();
+
+    if (!userMutation.isPending && userMutation.isSuccess) {
+      setFormData(initialFormData);
+    }
   };
 
   return (

@@ -23,7 +23,7 @@ const ArticleCard = (props: ArticleCardProps) => {
           authorName={author?.fullName ?? ""}
           createdAt={createdAt!}
         />
-        <p className="w-full text-sm md:text-lg text-justify mt-8">
+        <p className="w-full text-sm md:text-lg text-justify mt-4 mb-8">
           {description}
         </p>
         <CallToActionViews article={props.article} />

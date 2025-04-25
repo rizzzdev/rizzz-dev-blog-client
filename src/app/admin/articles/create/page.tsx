@@ -29,8 +29,6 @@ const CreateArticlesPage = () => {
 
   const articleMutation = useMutationArticles({ onSuccess: () => {} });
 
-  console.log(articleMutation);
-
   const setToast = useSetAtom(toastAtom);
   const handleShowToast = () => {
     const isError = !articleMutation.isPending && articleMutation.isError;

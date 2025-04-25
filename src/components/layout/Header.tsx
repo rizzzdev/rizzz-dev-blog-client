@@ -19,7 +19,7 @@ const Header = () => {
       </div>
       <div className="flex-1 flex justify-end items-center">
         <form
-          className="w-2/3 md:w-1/3 bg-background rounded-sm md:rounded-lg  flex justify-center items-center"
+          className="w-2/3 md:w-1/3 bg-background rounded-sm md:rounded-lg  flex justify-center items-center p-2"
           onSubmit={(event) => {
             event.preventDefault();
             handleSubmit();

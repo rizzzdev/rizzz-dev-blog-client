@@ -30,7 +30,7 @@ const AuthorDetails = (props: AuthorDetailsProps) => {
   const { authorName, createdAt } = props;
 
   return (
-    <>
+    <div className="w-full flex flex-col justify-center items-center mb-4">
       <AuthorDetailList
         hoverTitle="Author Name"
         icon={
@@ -65,7 +65,7 @@ const AuthorDetails = (props: AuthorDetailsProps) => {
         }
         text={timeParser(createdAt)!}
       />
-    </>
+    </div>
   );
 };
 
