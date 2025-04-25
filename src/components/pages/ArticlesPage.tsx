@@ -15,6 +15,7 @@ const ArticlesPage = (props: ArticlesPageProps) => {
   const { searchQuery } = props;
 
   const articles = useAtomValue(articlesAtom);
+  const filteredArticles = articles.filter((article) => !article.deletedAt);
 
   const userQuery = useQueryUser();
   const articlesQuery = useQueryArticles(searchQuery);
@@ -38,9 +39,9 @@ const ArticlesPage = (props: ArticlesPageProps) => {
       <Header />
       <Main>
         <h1 className="text-2xl md:text-5xl font-bold mb-4">Latest Articles</h1>
-        {!articles[0] && <p>No articles available!</p>}
-        {articles[0] &&
-          articles
+        {!filteredArticles[0] && <p>No articles available!</p>}
+        {filteredArticles[0] &&
+          filteredArticles
             .filter((article) => !article.deletedAt)
             .map((article) => {
               return <ArticleCard article={article} key={article.id} />;
