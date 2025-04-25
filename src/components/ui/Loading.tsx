@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Main from "../layout/Main";
-import Header from "../layout/Header";
 
 const Loading = () => {
   return (
