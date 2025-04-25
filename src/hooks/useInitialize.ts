@@ -1,1 +1,1 @@
-const useInitialize = () => {};
+export const useInitialize = () => {};
