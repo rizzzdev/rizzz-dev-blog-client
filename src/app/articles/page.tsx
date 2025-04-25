@@ -10,7 +10,11 @@ const Article = () => {
   const id = idParams.get("id");
 
   if (!id) {
-    return <ArticlesPage />;
+    return (
+      <Suspense>
+        <ArticlesPage />;
+      </Suspense>
+    );
   }
 
   return (
