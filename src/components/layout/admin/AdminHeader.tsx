@@ -41,8 +41,8 @@ const Menu = () => {
       />
       <MenuList
         icon={<Book size={24} weight="fill" />}
-        text="Posts"
-        link={"/admin/posts"}
+        text="Articles"
+        link={"/admin/articles"}
       />
     </nav>
   );

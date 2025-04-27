@@ -11,9 +11,11 @@ import Toast, { toastAtom } from "~/components/ui/Toast";
 import { useQueryAuthor } from "~/stores/authorStore";
 import { RequestArticleType } from "../../../../types/articleType";
 import { useMutationArticle } from "~/stores/articlesStore";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef } from "react";
+import { useQueryArticle } from "~/stores/articleStore";
 
-const CreateArticlesPage = () => {
+const UpdateArticles = () => {
   const formData = useAtomValue(formDataAtom) as unknown as RequestArticleType;
   const setFormData = useSetAtom(formDataAtom);
 
@@ -26,13 +28,41 @@ const CreateArticlesPage = () => {
     imageUrl: Joi.string().optional(),
   });
 
+  const router = useRouter();
+  const idParams = useSearchParams();
+  const id = idParams.get("id");
+  const isPushRef = useRef(false);
+
+  useEffect(() => {
+    if (!id && !isPushRef.current) {
+      isPushRef.current = true;
+      router.push("/admin/articles");
+    }
+  }, [id, router]);
+
   const authorQuery = useQueryAuthor();
+  const articleQuery = useQueryArticle(id!);
+  const isFormSetRef = useRef(false);
+
+  useEffect(() => {
+    if (
+      !articleQuery.isFetching &&
+      articleQuery.isSuccess &&
+      !isFormSetRef.current
+    ) {
+      isFormSetRef.current = true;
+      setFormData({
+        title: articleQuery.data.title,
+        description: articleQuery.data.description,
+        articleMarkdown: articleQuery.data.articleMarkdown,
+        imageUrl: articleQuery.data.imageUrl!,
+      });
+    }
+  }, [articleQuery, setFormData]);
 
   const articleMutation = useMutationArticle({
-    type: "create",
+    type: "update",
   });
-
-  const router = useRouter();
 
   const setToast = useSetAtom(toastAtom);
   const handleShowToast = () => {
@@ -48,6 +78,7 @@ const CreateArticlesPage = () => {
 
   const handleSubmit = () => {
     articleMutation.mutate({
+      id: articleQuery.data.id!,
       title: formData.title,
       description: formData.description,
       articleMarkdown: formData.articleMarkdown,
@@ -96,4 +127,12 @@ const CreateArticlesPage = () => {
   );
 };
 
-export default CreateArticlesPage;
+const UpdateArticlesPage = () => {
+  return (
+    <Suspense>
+      <UpdateArticles />
+    </Suspense>
+  );
+};
+
+export default UpdateArticlesPage;

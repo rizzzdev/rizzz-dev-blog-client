@@ -24,18 +24,60 @@ export const useQueryArticles = (searchQuery: string = "") => {
   });
 };
 
-export const useMutationArticles = ({
-  onSuccess,
-}: {
-  onSuccess: () => void;
-}) => {
+interface MutationArticle {
+  onSuccess?: () => void;
+  type: "create" | "update" | "delete";
+}
+
+type MutationArticleBody = Partial<{ id: string } & RequestArticleType>;
+
+export const useMutationArticle = (args: MutationArticle) => {
+  const createMutation = async (body: MutationArticleBody) => {
+    const response = await axiosInstance.post<
+      ApiResponseType<ArticleTypeExtends>
+    >("/articles", {
+      title: body.title,
+      description: body.description,
+      articleMarkdown: body.articleMarkdown,
+      imageUrl: body.imageUrl,
+      authorId: body.authorId,
+    });
+    return response.data.data;
+  };
+
+  const deleteMutation = async (body: MutationArticleBody) => {
+    const response = await axiosInstance.delete<
+      ApiResponseType<ArticleTypeExtends>
+    >(`/articles/${body.id}`);
+    return response.data.data;
+  };
+
+  const updateMutation = async (body: MutationArticleBody) => {
+    const response = await axiosInstance.patch<
+      ApiResponseType<ArticleTypeExtends>
+    >(`/articles/${body.id}`, {
+      title: body.title,
+      description: body.description,
+      authorId: body.authorId,
+      imageUrl: body.imageUrl,
+      articleMarkdown: body.articleMarkdown,
+    });
+    return response.data.data;
+  };
+
+  const mutationFn = (() => {
+    switch (args.type) {
+      case "create":
+        return createMutation;
+      case "delete":
+        return deleteMutation;
+      case "update":
+        return updateMutation;
+    }
+  })();
+
   return useMutation({
-    mutationFn: async (body: RequestArticleType) => {
-      const response = await axiosInstance.post<
-        ApiResponseType<ArticleTypeExtends>
-      >("/articles", body);
-      return response.data.data;
-    },
-    onSuccess,
+    mutationFn,
+    onSuccess: args.onSuccess,
   });
 };
