@@ -14,6 +14,7 @@ import { useMutationArticle } from "~/stores/articlesStore";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef } from "react";
 import { useQueryArticle } from "~/stores/articleStore";
+import SeriesSelection from "~/components/layout/admin/SeriesSelection";
 
 const UpdateArticles = () => {
   const formData = useAtomValue(formDataAtom) as unknown as RequestArticleType;
@@ -25,7 +26,8 @@ const UpdateArticles = () => {
     title: Joi.string().required(),
     description: Joi.string().required(),
     articleMarkdown: Joi.string().required(),
-    imageUrl: Joi.string().optional(),
+    imageUrl: Joi.string().allow("").optional(),
+    seriesId: Joi.string().allow("").optional(),
   });
 
   const router = useRouter();
@@ -56,6 +58,7 @@ const UpdateArticles = () => {
         description: articleQuery.data.description,
         articleMarkdown: articleQuery.data.articleMarkdown,
         imageUrl: articleQuery.data.imageUrl!,
+        seriesId: articleQuery.data.seriesId ?? "",
       });
     }
   }, [articleQuery, setFormData]);
@@ -84,6 +87,7 @@ const UpdateArticles = () => {
       articleMarkdown: formData.articleMarkdown,
       imageUrl: formData.imageUrl,
       authorId: authorQuery.data.id!,
+      seriesId: formData.seriesId ? formData.seriesId : null,
     });
     handleShowToast();
 
@@ -114,6 +118,7 @@ const UpdateArticles = () => {
           <Form.Input name="title" text="Title" />
           <Form.Input name="imageUrl" text="Image URL" />
           <Form.Textarea name="description" text="Description" />
+          <SeriesSelection />
           <Form.Textarea
             name="articleMarkdown"
             text="Article Markdown"

@@ -47,25 +47,10 @@ const Actions = () => {
     reactionText: Joi.string().trim().min(2).empty(" ").required(),
   });
 
-  console.log(formData);
-  console.log(reactionsMutation);
-
   useEffect(() => {
     setStars(article.stars!);
     setReactions(article.reactions!);
   }, [article, setStars, setReactions]);
-
-  // useEffect(() => {
-  //   if (!starsMutation.isPending && starsMutation.isSuccess) {
-  //     setStars((state) => [...state, starsMutation.data]);
-  //   }
-  // }, [setStars, starsMutation]);
-
-  // useEffect(() => {
-  //   if (!reactionsMutation.isPending && reactionsMutation.isSuccess) {
-  //     setReactions((state) => [...state, reactionsMutation.data]);
-  //   }
-  // }, [setReactions, reactionsMutation]);
 
   const handleClickStar = async () => {
     await starsMutation.mutate({

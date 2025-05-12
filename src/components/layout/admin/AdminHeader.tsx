@@ -1,4 +1,4 @@
-import { Book, House, User, Users } from "@phosphor-icons/react";
+import { Book, FolderOpen, House, User, Users } from "@phosphor-icons/react";
 import Link from "next/link";
 import { ReactNode } from "react";
 import Logo from "~/components/fragments/Logo";
@@ -43,6 +43,11 @@ const Menu = () => {
         icon={<Book size={24} weight="fill" />}
         text="Articles"
         link={"/admin/articles"}
+      />
+      <MenuList
+        icon={<FolderOpen size={24} weight="fill" />}
+        text="Series"
+        link={"/admin/series"}
       />
     </nav>
   );

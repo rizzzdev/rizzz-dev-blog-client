@@ -9,7 +9,8 @@ interface ArticleCardProps {
 }
 
 const ArticleCard = (props: ArticleCardProps) => {
-  const { title, author, description, createdAt, id, imageUrl } = props.article;
+  const { title, author, description, createdAt, id, imageUrl, series } =
+    props.article;
   return (
     <Link
       href={`/articles?id=${id}`}
@@ -22,6 +23,9 @@ const ArticleCard = (props: ArticleCardProps) => {
         <AuthorDetails
           authorName={author?.fullName ?? ""}
           createdAt={createdAt!}
+          seriesName={
+            series?.seriesName && !series?.deletedAt ? series.seriesName : "-"
+          }
         />
         <p className="w-full text-sm md:text-lg text-justify mt-4 mb-8">
           {description}

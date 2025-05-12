@@ -12,6 +12,7 @@ import { useQueryAuthor } from "~/stores/authorStore";
 import { RequestArticleType } from "../../../../types/articleType";
 import { useMutationArticle } from "~/stores/articlesStore";
 import { useRouter } from "next/navigation";
+import SeriesSelection from "~/components/layout/admin/SeriesSelection";
 
 const CreateArticlesPage = () => {
   const formData = useAtomValue(formDataAtom) as unknown as RequestArticleType;
@@ -24,6 +25,7 @@ const CreateArticlesPage = () => {
     description: Joi.string().required(),
     articleMarkdown: Joi.string().required(),
     imageUrl: Joi.string().optional(),
+    seriesId: Joi.string().optional(),
   });
 
   const authorQuery = useQueryAuthor();
@@ -52,6 +54,7 @@ const CreateArticlesPage = () => {
       description: formData.description,
       articleMarkdown: formData.articleMarkdown,
       imageUrl: formData.imageUrl,
+      seriesId: formData.seriesId,
       authorId: authorQuery.data.id!,
     });
     handleShowToast();
@@ -83,6 +86,7 @@ const CreateArticlesPage = () => {
           <Form.Input name="title" text="Title" />
           <Form.Input name="imageUrl" text="Image URL" />
           <Form.Textarea name="description" text="Description" />
+          <SeriesSelection />
           <Form.Textarea
             name="articleMarkdown"
             text="Article Markdown"

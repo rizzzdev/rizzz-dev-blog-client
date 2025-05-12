@@ -2,12 +2,13 @@ import { AuthorTypeExtends } from "./authorType";
 import { ReactionTypeExtends } from "./reactionType";
 import { StarTypeExtends } from "./starType";
 import { PageviewTypeExtends } from "./pageviewType";
-import { ArticleToTopicTypeExtends } from "./articleToTopicType";
+import { SeriesTypeExtends } from "./seriesType";
 
 export interface RequestArticleType {
   title: string;
   description: string;
   articleMarkdown: string;
+  seriesId?: string | null;
   imageUrl?: string;
   authorId: string;
 }
@@ -21,7 +22,7 @@ export interface ArticleType extends RequestArticleType {
 export interface ArticleTypeExtends extends ArticleType {
   stars?: StarTypeExtends[];
   reactions?: ReactionTypeExtends[];
-  topics?: ArticleToTopicTypeExtends[];
   pageviews?: PageviewTypeExtends[];
   author?: AuthorTypeExtends;
+  series?: SeriesTypeExtends;
 }

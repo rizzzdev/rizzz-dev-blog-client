@@ -15,6 +15,17 @@ interface TextareaProps {
   minHeight?: number;
 }
 
+interface SelectProps {
+  name: string;
+  text: string;
+  children: ReactNode;
+}
+
+interface OptionProps {
+  text: string;
+  value: string;
+}
+
 interface ButtonProps {
   text: string;
 }
@@ -27,7 +38,8 @@ interface FormProps<T> {
 
 export const initialFormData = {};
 
-export const formDataAtom = atom<Record<string, string>>(initialFormData);
+export const formDataAtom =
+  atom<Record<string, string | null | undefined>>(initialFormData);
 
 const Input = (props: InputProps) => {
   const { name, text, type } = props;
@@ -98,6 +110,48 @@ const Textarea = (props: TextareaProps) => {
   );
 };
 
+const Select = (props: SelectProps) => {
+  const { children, name, text } = props;
+
+  const setFormData = useSetAtom(formDataAtom);
+  const formData = useAtomValue(formDataAtom);
+
+  return (
+    <div className="w-full p-4 flex flex-col justify-center items-center gap-1 border-1 md:border-2 focus-within:border-2 md:focus-within:border-4 transition-all border-primary rounded-md text-sm md:text-lg">
+      {formData[name] && (
+        <label htmlFor={name} className="w-full text-primary font-bold">
+          {text}
+        </label>
+      )}
+
+      <select
+        className={`w-full ${
+          formData[name] ? "text-primary" : "text-[#a9a9a9]"
+        } border-none appearance-none outline-none`}
+        onChange={(event) => {
+          setFormData((state) => ({ ...state, [name]: event.target.value }));
+        }}
+        value={formData[name] ?? ""}
+      >
+        <option value="" className="text-primary px-4">
+          {text}
+        </option>
+        {children}
+      </select>
+    </div>
+  );
+};
+
+const Option = (props: OptionProps) => {
+  const { text, value } = props;
+
+  return (
+    <option value={value} className="text-primary px-4">
+      {text}
+    </option>
+  );
+};
+
 const Button = (props: ButtonProps) => {
   const { text } = props;
   return (
@@ -151,6 +205,8 @@ const Form = <T,>(props: FormProps<T>) => {
 
 Form.Input = Input;
 Form.Textarea = Textarea;
+Form.Select = Select;
+Form.Option = Option;
 Form.Button = Button;
 
 export default Form;

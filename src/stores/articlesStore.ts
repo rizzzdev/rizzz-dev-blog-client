@@ -41,6 +41,7 @@ export const useMutationArticle = (args: MutationArticle) => {
       articleMarkdown: body.articleMarkdown,
       imageUrl: body.imageUrl,
       authorId: body.authorId,
+      seriesId: body.seriesId,
     });
     return response.data.data;
   };
@@ -61,6 +62,7 @@ export const useMutationArticle = (args: MutationArticle) => {
       authorId: body.authorId,
       imageUrl: body.imageUrl,
       articleMarkdown: body.articleMarkdown,
+      seriesId: body.seriesId,
     });
     return response.data.data;
   };

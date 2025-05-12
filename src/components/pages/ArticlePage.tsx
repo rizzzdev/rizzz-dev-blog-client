@@ -73,6 +73,7 @@ const ArticlePage = (props: ArticlePageProps) => {
           <AuthorDetails
             authorName={articleQuery.data?.author?.fullName ?? ""}
             createdAt={articleQuery.data.createdAt!}
+            seriesName={articleQuery.data.series?.seriesName}
           />
           <CallToActionViews align="center" article={articleQuery.data} />
           <div className="w-full h-1 bg-primary my-8"></div>

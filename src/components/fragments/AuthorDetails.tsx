@@ -1,4 +1,9 @@
-import { CalendarBlank, Clock, Pencil } from "@phosphor-icons/react";
+import {
+  CalendarBlank,
+  Clock,
+  FolderOpen,
+  Pencil,
+} from "@phosphor-icons/react";
 import { ReactNode } from "react";
 import { dateParser, timeParser } from "~/libs/datetimeParser";
 
@@ -11,6 +16,7 @@ interface AuthorDetailListProps {
 interface AuthorDetailsProps {
   authorName: string;
   createdAt: Date;
+  seriesName: string;
 }
 
 const AuthorDetailList = (props: AuthorDetailListProps) => {
@@ -27,7 +33,7 @@ const AuthorDetailList = (props: AuthorDetailListProps) => {
 };
 
 const AuthorDetails = (props: AuthorDetailsProps) => {
-  const { authorName, createdAt } = props;
+  const { authorName, createdAt, seriesName } = props;
 
   return (
     <div className="w-full flex flex-col justify-center items-center mb-4">
@@ -56,7 +62,7 @@ const AuthorDetails = (props: AuthorDetailsProps) => {
         text={dateParser(createdAt)!}
       />
       <AuthorDetailList
-        hoverTitle="Topics"
+        hoverTitle="Date of Article Created"
         icon={
           <>
             <Clock size={32} weight="fill" className="hidden md:block" />
@@ -64,6 +70,16 @@ const AuthorDetails = (props: AuthorDetailsProps) => {
           </>
         }
         text={timeParser(createdAt)!}
+      />
+      <AuthorDetailList
+        hoverTitle="Article Series"
+        icon={
+          <>
+            <FolderOpen size={32} weight="fill" className="hidden md:block" />
+            <FolderOpen size={24} weight="fill" className="md:hidden" />
+          </>
+        }
+        text={seriesName}
       />
     </div>
   );
